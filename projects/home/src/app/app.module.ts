@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NeoCommonModule } from '@neo/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { NeoCommonModule } from '@neo/common';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NeoCommonModule
+    NeoCommonModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
