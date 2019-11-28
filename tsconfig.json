@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "neo-common": [
+        "dist/neo-common"
+      ],
+      "neo-common/*": [
+        "dist/neo-common/*"
+      ]
+    }
   }
 }
