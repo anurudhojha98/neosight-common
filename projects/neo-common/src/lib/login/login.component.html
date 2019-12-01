@@ -1,20 +1,304 @@
-<mat-card>
-    <mat-card-title>Sample Form</mat-card-title>
-    <mat-card-content>
-        <div class="example-container">
-            <mat-form-field>
-                <input matInput placeholder="Input">
-            </mat-form-field>
-
-            <mat-form-field>
-                <textarea matInput placeholder="Textarea"></textarea>
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-select placeholder="Select">
-                    <mat-option value="option">Option</mat-option>
-                </mat-select>
-            </mat-form-field>
+<div layout="column" layout-fill class="backgroundWhite">
+    <div class="mat-content" flex class="paddingPlaceholder">
+      <div layout-gt-xs="row" layout-align-gt-xs="start start" class="margin">
+        <div flex="30" flex-md="50" flex-lg="30" flex-sm="100" flex-xs="100">
+          <mat-card tdMediaToggle="gt-xs" class="cardView">
+            <mat-card-title i18n="login Page|Login Page Greeting@@loginPageGreeting">Welcome to GST Voice</mat-card-title>
+            <!-- <mat-card-subtitle>sign in via your current corporate account</mat-card-subtitle> -->
+            <mat-divider></mat-divider>
+            <mat-card-content>
+              <div id="loginForm" *ngIf="viewObj.isLogin">
+                <mat-tab-group class="form-scroll" [selectedIndex]="selectIndex" (selectedIndexChange)="selectedIndex($event,signUpForm,loginForm)">
+                  <mat-tab label="Login" i18n-label="loginPage|Login Tab label@@loginPageLoginTabLabel">
+                    <div layout="row" layout-align="center center">
+                      <form #loginForm="ngForm" class="ngForm">
+                        <div layout="row">
+                          <mat-form-field flex color="primary" class="loginInputPlaceholder paddingPlaceholder">
+                            <span matPrefix>
+                              <mat-icon>person</mat-icon>
+                            </span>
+                            <input matInput #userElement id="userElement" class="paddingPlaceholder" maxlength="{{globalVariable.textBoxMaxLength}}"
+                              #userControl="ngModel" placeholder="Email" name="emailId" [(ngModel)]="emailId" required input-clear="black" i18n-placeholder="loginPage|Login Tab Email Field Placeholder@@loginPageLoginTabEmail">
+                            <mat-hint align="start">
+                              <span [hidden]="!userControl.errors?.required || userControl.pristine" class="tc-red-600">Required</span>
+                            </mat-hint>
+                            <mat-hint align="end">{{userElement.value.length}} / {{globalVariable.textBoxMaxLength}}</mat-hint>
+                          </mat-form-field>
+                        </div>
+                        <div layout="row">
+                          <mat-form-field flex class="loginInputPlaceholder paddingPlaceholder">
+                            <input matInput #passElement id="passElement" #passControl="ngModel" maxlength="{{globalVariable.textBoxMaxLength}}" placeholder="Password"
+                              type="password" name="password" [(ngModel)]="password" required i18n-placeholder="loginPage|Login Tab Password Field Placeholder@@loginPageLoginTabPassword">
+                            <span matPrefix>
+                              <mat-icon>lock</mat-icon>
+                            </span>
+                            <span matSuffix class="cursorPointer">
+                              <mat-icon id="eyeIcon" (click)="showPassword()" *ngIf="!isClicked" [matTooltip]="HIDE_PASSWORD">visibility</mat-icon>
+                              <mat-icon id="eyeIcon" (click)="showPassword()" *ngIf="isClicked" [matTooltip]="SHOW_PASSWORD">visibility_off</mat-icon>
+                            </span>
+                            <mat-hint align="start">
+                              <span [hidden]="!passControl.errors?.required || passControl.pristine" class="tc-red-600">Required</span>
+                            </mat-hint>
+                            <mat-hint align="end">{{passElement.value.length}} / {{globalVariable.textBoxMaxLength}}</mat-hint>
+                          </mat-form-field>
+                        </div>
+                        <div class="mt20" *ngIf="resendActivationLinkShow==true">
+                          <!-- <td-message #messageDemo color="blue" class="pad-sm"   label="Your email is not verified."  sublabel="Click here to resend the activation link." >
+                            </td-message> -->
+                          <div class="messageStrip">
+                            <div class="messageText" i18n="loginPage|Login Tab Email not Verified@@loginPageLoginTabEmailNotVerified">Your E-mail is not verified.</div>
+                            <div i18n="loginPage|Login Tab Resend Activation Link@@loginPageLoginTabResendActivationLink">
+                              <span class="clickable" (click)="resendActivationLink(emailId)">Click here</span> to resend the activation link.</div>
+                          </div>
+                        </div>
+                        <div layout="row" class="mt20">
+                          <button flex-gt-xs="100" mat-raised-button id="signInButton" color="accent" [disabled]="!loginForm.form.valid || disableLoginButton"
+                            (click)="login()" i18n="loginPage|Login Tab Sign in Button@@loginPageLoginTabSignInButton">Sign In</button>
+                        </div>
+  
+                        <mat-card-actions>
+                          <div layout="row" layout-align="space-between start">
+                            <mat-checkbox [checked]="isRemeberMeChecked" (change)="rememberMeToggle(isRemeberMeChecked)" class="push-bottom-sm" i18n="loginPage|Login Tab Remember Me Checkbox@@loginPageLoginTabRememberMe">Remember Me</mat-checkbox>
+                            <a class="whiteLink cursorPointer remember-text" (click)="goToForgotPassword()" i18n="loginPage|Login Tab Forgot Password@@loginPageLoginTabForgotPassword">Forgot Password?</a>
+                          </div>
+                        </mat-card-actions>
+                      </form>
+                    </div>
+                  </mat-tab>
+                  <mat-tab label="Sign Up" i18n-label="loginPage|Sign Up Tab Label@@loginPageSignUpTabLabel">
+                    <mat-card class="warningMessage" style="width:96%" *ngIf="!isSignUpAllowed">
+                      <mat-card-title>
+                        <mat-icon>warning</mat-icon>
+                        <span i18n="loginPage|Sign Up Tab Signup Disabled Heading@@loginPageSignUpTabSignupDisabledHeading">New account signup disabled</span>
+                      </mat-card-title>
+                      <!--<mat-card-subtitle></mat-card-subtitle>-->
+                      <mat-divider></mat-divider>
+                      <mat-card-content>
+                        <div layout="row">
+                          <div flex class="info" i18n="loginPage|Sign Up Tab Signup Disabled Message@@loginPageSignUpTabSignupDisabledMessage">Self signup is temporarily disabled. Please contact customer support for more information and help
+                            with sign-up.</div>
+                        </div>
+                        <div layout="row">
+                          <div flex>&nbsp;</div>
+                        </div>
+                        <div layout="row">
+                          <div flex="50" class="contactDetails borderLeft">
+                            <div layout="column" class="contactBoxes">
+                              <div flex>
+                                <i class="material-icons">call</i>
+                                <span class="contactBoxesHead" i18n="loginPage|Sign Up Tab Signup Disabled Message Call Us@@loginPageSignUpTabSignupDisabledMessageCall">Call Us</span>
+                              </div>
+                              <div flex>{{contactModel.landLine}}</div>
+                              <div flex>{{contactModel.mobileNo}}</div>
+                            </div>
+                          </div>
+                          <div flex="50" class="contactDetails borderLeft">
+                            <div layout="column" class="contactBoxes">
+                              <div flex>
+                                <i class="material-icons">email</i>
+                                <span class="contactBoxesHead" i18n="loginPage|Sign Up Tab Signup Disabled Mail Us@@loginPageSignUpTabSignupDisabledMail">Mail Us</span>
+                              </div>
+                              <div flex>{{contactModel.email}}</div>
+                              <div flex>{{contactModel.emailContact}}</div>
+                            </div>
+                          </div>
+                        </div>
+                      </mat-card-content>
+                    </mat-card>
+                    <div layout="row" [ngClass]="{'displayNone':!(isSignUpAllowed)}" layout-align="center center" layout-wrap>
+                      <form #signUpForm="ngForm" id="signUpForm" class="ngForm" [ngClass]="{'displayNone':!(signUpSuccessfull==false && hideFormTOReset==false)}">
+                        <div layout="row">
+                          <mat-form-field flex color="primary" class="loginInputPlaceholder paddingPlaceholder">
+                            <input matInput #companyName #companyNameCtrl="ngModel" id="companyName" placeholder="Legal Name of the Business" maxlength={{globalVariable.maxLengthForString}}
+                              name="companyName" [(ngModel)]="signUpObjectModel.companyName" required input-clear="black" i18n-placeholder="loginPage|Sign Up Tab Business Name Field Placeholder@@loginPageSignUpTabBusinessName">
+                            <span matPrefix>
+                              <mat-icon>perm_identity</mat-icon>
+                            </span>
+                            <mat-hint align="start">
+                              <span [hidden]="!companyNameCtrl.errors?.required || companyNameCtrl.pristine" class="tc-red-600" i18n="@@required">Required</span>
+                            </mat-hint>
+                            <mat-hint align="end">{{companyName.value.length}} / {{globalVariable.maxLengthForString}}</mat-hint>
+                          </mat-form-field>
+                        </div>
+                        <div layout="row" class="push-bottom">
+                          <mat-form-field flex color="primary" class="loginInputPlaceholder paddingPlaceholder">
+                            <label class="paddingPlaceholder" *ngIf="(!contactEmailCtrl.errors?.required || contactEmailCtrl.pristine) && (!contactEmailCtrl.errors?.pattern) && isEmailAlreadyExist==false"
+                              class="infoLabel">
+                              <div layout="row">
+                                <div>
+                                  <mat-icon>info_outline</mat-icon>
+                                </div>
+                                <div i18n="loginPage|Sign Up Tab Info Email@@loginPageSignUpTabInfoEmail">Activation link will be sent to this email.</div>
+                              </div>
+                            </label>
+                            <input matInput #contactEmail id="contactEmail" #contactEmailCtrl="ngModel" placeholder="Email Id" maxlength="{{globalVariable.textBoxMaxLength}}"
+                              name="companyEmailId" [(ngModel)]="signUpObjectModel.emailId" (blur)="validateEmail(signUpObjectModel.emailId,!contactEmailCtrl.errors?.pattern)"
+                              [pattern]="globalVariable.emailRegex" required input-clear="black" i18n-placeholder="loginPage|Sign Up Tab Email Field Placeholder@@loginPageSignUpTabEmail">
+                            <span matPrefix>
+                              <mat-icon>contact_mail</mat-icon>
+                            </span>
+                            <mat-hint align="start">
+                              <span [hidden]="!contactEmailCtrl.errors?.required || contactEmailCtrl.pristine" class="tc-red-600" i18n="@@required">Required</span>
+                              <span [hidden]="!contactEmailCtrl.errors?.pattern" class="tc-red-600">Enter valid Email Id</span>
+                              <span *ngIf="!contactEmailCtrl.errors?.required && !contactEmailCtrl.errors?.pattern && isEmailAlreadyExist==true" class="tc-red-600">Email already exist</span>
+                            </mat-hint>
+                            <mat-hint align="end">{{contactEmail.value.length}} / {{globalVariable.textBoxMaxLength}}</mat-hint>
+                          </mat-form-field>
+                        </div>
+                        <div layout="row">
+                          <mat-form-field flex color="primary" class="loginInputPlaceholder paddingPlaceholder">
+                            <input type="password" matInput #password1 id="password1" #password1Ctrl="ngModel" placeholder="Password" maxlength={{globalVariable.textBoxMaxLength}}
+                              name="confirmPassword" [(ngModel)]="signUpObjectModel.password" required input-clear="black" i18n-placeholder="loginPage|Sign Up Tab Password Field Placeholder@@loginPageSignUpTabPassword">
+                            <span matPrefix>
+                              <mat-icon>lock</mat-icon>
+                            </span>
+                            <mat-hint align="start">
+                              <span [hidden]="!password1Ctrl.errors?.required || password1Ctrl.pristine" class="tc-red-600" i18n="@@required">Required</span>
+                            </mat-hint>
+                            <mat-hint align="end">{{password1.value.length}} / {{globalVariable.textBoxMaxLength}}</mat-hint>
+                          </mat-form-field>
+                        </div>
+                        <div layout="row">
+                          <mat-form-field flex color="primary" class="loginInputPlaceholder paddingPlaceholder">
+                            <input type="password" matInput #password2 id="password2" #password2Ctrl="ngModel" placeholder="Confirm Password" maxlength={{globalVariable.textBoxMaxLength}}
+                              name="password2" [(ngModel)]="signUpObjectModel.confirmPassword" required input-clear="black" i18n-placeholder="loginPage|Sign Up Tab Confirm Password Field Placeholder@@loginPageSignUpTabConfirmPassword">
+                            <span matPrefix>
+                              <mat-icon>lock</mat-icon>
+                            </span>
+                            <mat-hint align="start">
+                              <span [hidden]="!password2Ctrl.errors?.required || password2Ctrl.pristine" class="tc-red-600">Required</span>
+                              <span *ngIf="(!password2Ctrl.errors?.required || !password2Ctrl.pristine) && (signUpObjectModel.confirmPassword !== signUpObjectModel.password) && signUpObjectModel.confirmPassword.length>0"
+                                class="tc-red-600">Password did not match</span>
+                            </mat-hint>
+                            <mat-hint align="end">{{password2.value.length}} / {{globalVariable.textBoxMaxLength}}</mat-hint>
+                          </mat-form-field>
+                        </div>
+                        <div layout="row">
+                          <mat-form-field flex color="primary" class="loginInputPlaceholder paddingPlaceholder">
+                            <input matInput #contactPerson #contactPersonCtrl="ngModel" id="contactPerson" placeholder="Contact Person" maxlength={{globalVariable.textBoxMaxLength}}
+                              name="contactPersonName" [(ngModel)]="signUpObjectModel.contactPersonName" required input-clear="black" i18n-placeholder="loginPage|Sign Up Tab Contact Person Field Placeholder@@loginPageSignUpTabContactPerson">
+                            <span matPrefix>
+                              <mat-icon>contacts</mat-icon>
+                            </span>
+                            <mat-hint align="start">
+                              <span [hidden]="!contactPersonCtrl.errors?.required || contactPersonCtrl.pristine" class="tc-red-600">Required</span>
+                            </mat-hint>
+                            <mat-hint align="end">{{contactPerson.value.length}} / {{globalVariable.textBoxMaxLength}}</mat-hint>
+                          </mat-form-field>
+                        </div>
+                        <div layout="row">
+                          <mat-form-field flex color="primary" class="loginInputPlaceholder paddingPlaceholder">
+                            <input matInput #mobileNumber #mobileNumberCtrl="ngModel" id="mobileNumber" placeholder="Mobile Number" maxlength={{globalVariable.maxLengthForMobileNumber}}
+                              name="mobileNumber" [(ngModel)]="signUpObjectModel.mobileNumber" input-clear="black" [pattern]="globalVariable.mobileNumberRegex" i18n-placeholder="loginPage|Sign Up Tab Mobile Number Field Placeholder@@loginPageSignUpTabMobileNo">
+                            <span matPrefix>
+                              <mat-icon>contact_phone</mat-icon>
+                            </span>
+                            <mat-hint align="start">
+                              <span [hidden]="!mobileNumberCtrl.errors?.pattern" class="tc-red-600">Enter valid mobile number</span>
+                            </mat-hint>
+                            <mat-hint align="end">{{mobileNumber.value.length}} / {{globalVariable.maxLengthForMobileNumber}}</mat-hint>
+                          </mat-form-field>
+                        </div>
+                        <div layout="row">
+                          <mat-form-field flex color="primary" class="loginInputPlaceholder paddingPlaceholder">
+                            <input matInput #contactPersonDesignation #contactPersonDesignationCtrl="ngModel" id="contactPersonDesignation" placeholder="Contact Person Designation"
+                              maxlength={{globalVariable.textBoxMaxLength}} name="contactPersonDesignation" [(ngModel)]="signUpObjectModel.contactPersonDesignation"
+                              input-clear="black" i18n-placeholder="loginPage|Sign Up Tab Designation Field Placeholder@@loginPageSignUpTabDesignation">
+                            <span matPrefix>
+                              <mat-icon>label</mat-icon>
+                            </span>
+                            <mat-hint align="end">{{contactPersonDesignation.value.length}} / {{globalVariable.textBoxMaxLength}}</mat-hint>
+                          </mat-form-field>
+                        </div>
+                        <!-- <div layout="row" layout-align="space-around center">
+                          <re-captcha *ngIf="isSignUpAllowed==true" name="myRecaptcha" site_key="{{siteKey}}" (captchaResponse)="handleSignUpCorrectCaptcha($event)"
+                            (captchaExpired)="handleExpiredCaptcha()"></re-captcha>
+                        </div> -->
+                        <div layout="row" *ngIf="errorInSignUp==true" class="mt20">
+                          <td-message flex-gt-xs="100" #messageDemo color="red" class="pad-sm" label="{{errorMessageInSignUp}}">
+                            <i td-message-actions class="material-icons cursorPointer" (click)="closeErrorBox(messageDemo)">close</i>
+                          </td-message>
+                        </div>
+                        <div class="pad-top-5">
+                          <mat-checkbox id="termsAndConditions" [(ngModel)]="signUpObjectModel.isTermsAccepted" name="termsAndConditions">
+                          </mat-checkbox>
+                          <a class="terms" (click)="termsAndConditions(signUpObjectModel.isTermsAccepted)">{{termsConditions}}</a>
+                        </div>
+                        <div layout="row" id="signup-form " class="mt20">
+                          <button flex-gt-xs="100" mat-raised-button color="accent" id="signupButton" [disabled]="!signUpForm.form.valid || !isValid()"
+                            (click)="signUp(signUpForm)">Sign Up</button>
+                        </div>
+                      </form>
+                      <div *ngIf="signUpSuccessfull==true && hideFormTOReset==false" [ngClass]="{'mt20':signUpSuccessfull}">
+                        <mat-card style="width:95% !important" class="signupMessage">
+                          <mat-card-title>
+                            <mat-icon>info_outline</mat-icon>
+                            <span class="registrationText" i18n="loginPage|Sign Up Tab Regitration Success Message@@loginPageSignUpTabRegistrationSuccess">Registration successful.</span>
+                          </mat-card-title>
+                          <div class="messageStripSignup">
+                            <div class="messageTextSginup" i18n="loginPage|Sign Up Tab Verification Link Sent@@loginPageSignUpTabVerificationLinkSent">Verification link has been sent to your email! Please verify your email.</div>
+                            <div id="setCompanyDetailAndRedirect">
+                              <span class="clickableSignUp info" (click)="getUserAccess()" i18n="loginPage|Sign Up Tab Continue Without Verification@@loginPageSignUpTabContinueWithoutVerification">Continue without verification.</span>
+                            </div>
+                          </div>
+                          <mat-card-content>
+                            <i class="starSize">* </i> <ng-container i18n="loginPage|Sign Up Tab Verify email before next login@@loginPageSignUpTabVerifyEmailBeforeNextLogin">You must verify your email before next login.</ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+                    </div>
+                  </mat-tab>
+                </mat-tab-group>
+              </div>
+              <div id="forgotpasswordForm" *ngIf="viewObj.isForgotPassword">
+                <form #forgotPassForm="ngForm">
+                  <div layout="row">
+                    <mat-form-field flex class="loginInputPlaceholder">
+                      <input matInput #emailElement #emailControl="ngModel" type="text" maxlength="{{globalVariable.textBoxMaxLength}}" placeholder="Email"
+                        [(ngModel)]="email" name="email" [pattern]="globalVariable.emailRegex" required>
+                      <span matPrefix>
+                        <mat-icon>email</mat-icon>
+                      </span>
+                      <mat-hint align="start">
+                        <span [hidden]="emailControl.pristine" class="tc-red-600">
+                          <span [hidden]="!emailControl.errors?.required" i18n="@@required">Required</span>
+                          <span [hidden]="!emailControl.errors?.pattern">Enter valid email</span>
+                        </span>
+                      </mat-hint>
+                      <mat-hint align="end">{{emailElement.value.length}} / {{globalVariable.textBoxMaxLength}}</mat-hint>
+                    </mat-form-field>
+                  </div>
+                  <div layout="row" *ngIf="errorInForgotPassword==true" class="mt20" style="overflow: hidden">
+                    <td-message flex-gt-xs="100" #messageDemo color="red" class="pad-sm" label="{{errorMessageInForgotPassword}}">
+                      <i td-message-actions class="material-icons cursorPointer" (click)="closeErrorBox(messageDemo)">close</i>
+                    </td-message>
+                  </div>
+  
+                  <!-- <div layout="row" layout-align="space-around center">
+                    <re-captcha name="myRecaptcha2" site_key="{{siteKey}}" (captchaResponse)="handleForgotPasswordCorrectCaptcha($event)" (captchaExpired)="handleExpiredCaptcha()"></re-captcha>
+                  </div> -->
+                  <div layout="row" *ngIf="passwordLinkSentMessage.length>0" class="mt20">
+                    <td-message flex-gt-xs="100" #messageDemo color="green" class="pad-sm" label="{{passwordLinkSentMessage}}">
+                    </td-message>
+                  </div>
+                  <div layout="row" id="signup-form " class="mt20">
+                    <button flex-gt-xs="100" mat-raised-button color="accent" [disabled]="!forgotPassForm.form.valid" (click)="sendLink()">
+                      <span *ngIf="passwordLinkSentMessage.length>0">Resend Link</span>
+                      <span *ngIf="passwordLinkSentMessage==''">Send Link</span>
+                    </button>
+  
+                  </div>
+                  <div layout="row" id="signup-form " class="mt10">
+                    <button flex-gt-xs="100" mat-raised-button color="accent" (click)="GoToLogin()">Login</button>
+  
+                  </div>
+                </form>
+  
+              </div>
+            </mat-card-content>
+          </mat-card>
         </div>
-    </mat-card-content>
-</mat-card>
+        <div flex="70" flex-md="50" flex-lg="70" flex-sm="0" class="background-image" hide-xs></div>
+      </div>
+    </div>
+  </div>

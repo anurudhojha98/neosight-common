@@ -1,8 +1,221 @@
-.example-container {
-    display: flex;
-    flex-direction: column;
+// :host /deep/ {
+//   mat-divider {
+//     display: block;
+//     border-top-style: solid;
+//     border-top-width: 1px;
+//   }
+// }
+.background-image {
+  background-image: url(".loginBackground.jpg");
+  background-repeat: no-repeat;
+  background-attachment: inherit;
+  background-size: cover;
+  border-left: 1px solid  rgba(15, 70, 126, 0.3);
+  height: 100vh;
+}
+.padding {
+  padding: 16px 0;
+}
+mat-icon {
+  margin-right: 10px;
+}
+.remember-text {
+  text-decoration: none;
+  color: #ef6c00;
+  text-decoration: none;
+  cursor: pointer;
+  padding-top: 3px;
+}
+.cardView {
+  background: transparent;
+  box-shadow: none !important;
+}
+
+mat-card-content {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.ngForm {
+  width: 90%;
+  padding-top: 20px;
+}
+
+.mat-input-underline {
+  position: absolute;
+  height: 1px;
+  width: 100%;
+  margin-top: 4px;
+  border-top-width: 1px;
+  border-top-style: solid;
+}
+
+.infoLabel {
+  margin-top: 38px;
+  position: absolute;
+  font-size: 11px;
+  color:rgba(25, 118, 210, 0.70);;
+  letter-spacing: 1px;
+}
+.pad-top-5 {
+  padding-top: 5px;
+}
+.infoLabel mat-icon {
+  margin-top: -6px;
+  margin-left: -36px;
+}
+.mt20 {
+  margin-top: 20px;
+}
+.mt10 {
+  margin-top: 10px;
+}
+.clickable {
+  cursor: pointer;
+  color:  #1976d2;
+  text-decoration: underline;
+}
+.clickableSignUp {
+  cursor: pointer;
+  color: #ef6c00;
+  text-decoration: underline;
+}
+.messageStrip {
+  color: #4793de;
+  background: #bbdefb;
+  height: 70px;
+  width: 100%;
+  text-align: center;
+}
+.messageStripSignup {
+  height: 100px;
+  width: 100%;
+  text-align: center;
+}
+.messageTextSginup {
+  padding: 10px;
+  padding-top: 15px;
+  font-size: 15px;
+  font-weight: 500;
+}
+.messageText {
+  padding-top: 15px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.warningMessage mat-icon {
+  color: #FFCC00;
+  font-size: 39px !important;
+}
+.signupMessage mat-icon {
+  color: rgb(10, 90, 10);
+  font-size: 36px !important;
+}
+.signupMessage.mat-card .mat-divider {
+  border-top-color:#e0e0e0 !important;
+  border-top-style: solid !important;
+  border-top-width: 1px !important;
+}
+.signupMessage mat-card-title span {
+  letter-spacing: 1px;
+  font-variant-caps: all-petite-caps;
+  position: absolute;
+  margin-top: 5px;
+}
+
+.signupMessage mat-card-subtitle {
+  letter-spacing: 1px;
+  font-variant-caps:all-petite-caps;
+  color:#ff0000;
+}
+
+.signupMessage .info {
+  letter-spacing: 1px;
+  font-size: 13px;
+  font-weight: 600;
+  font-style: italic;
+}
+
+mat-card.warningMessage.mat-card {
+  width: 100%;
+}
+
+.warningMessage.mat-card .mat-divider {
+  border-top-color:#e0e0e0 !important;
+  border-top-style: solid !important;
+  border-top-width: 1px !important;
+}
+
+.contactDetails {
+  padding: 5px;
+  padding-left: 10px;
+}
+
+.borderLeft {
+  border-left: 5px solid #e0e0e0;
+}
+
+.warningMessage mat-card-title span {
+  letter-spacing: 1px;
+  font-variant-caps: all-petite-caps;
+  position: absolute;
+  margin-top: 5px;
+}
+
+.warningMessage mat-card-subtitle {
+  letter-spacing: 1px;
+  font-variant-caps: all-petite-caps;
+  color: #ff0000;
+}
+
+.warningMessage .info {
+  letter-spacing: 1px;
+  font-size:  12px;
+  font-style: italic;
+}
+
+.contactBoxes div {
+  padding: 5px 0px;
+  font-size:  12px;
+  letter-spacing: 1px;
+}
+
+span.contactBoxesHead {
+  position: absolute;
+  margin-top: 5px;
+  padding-left: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.footerText {
+  color:#7a7a7a;
+}
+
+.registrationText {
+  font-size: 21px !important;
+  color: #388e3c;
+}
+.starSize {
+  color: #ef6c00;
+  font-size: 20px;
+}
+.displayNone {
+  display: none !important;
+}
+.terms {
+  cursor: pointer;
+  padding-left: 2px;
+  text-decoration: underline;
+  color: blue;
+}
+.backgroundWhite {
+  background: white !important;
+}
+
+@media (max-width: 1400px), (max-height: 725px) {
+  .form-scroll {
+    overflow-y: auto;
+    height: 500px;
   }
-  
-  .example-container > * {
-    width: 100%;
-  }
+}
