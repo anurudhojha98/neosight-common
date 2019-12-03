@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'neo-common-reset-password',
@@ -11,6 +11,8 @@ export class ResetPasswordComponent implements OnInit {
 
   isValid = true;
   forgotPwd: any = {};
+  @Input() input;
+  @Output() userObj = new EventEmitter();
 
   ngOnInit() {
   }
@@ -20,7 +22,7 @@ export class ResetPasswordComponent implements OnInit {
     }
   }
   forgotPassword() {
-    console.log(this.forgotPwd);
+    this.userObj.emit(this.forgotPwd);
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'neo-common-signup',
@@ -12,7 +12,8 @@ export class SignupComponent implements OnInit {
   isHide = true;
   isValid = true;
   signupObj: any = {};
-
+  @Input() input;
+  @Output() userObj = new EventEmitter();
   ngOnInit() {
   }
   onSubmitForm(form) {
@@ -21,6 +22,6 @@ export class SignupComponent implements OnInit {
     }
   }
   signUp() {
-
+    this.userObj.emit(this.signupObj);
   }
 }
