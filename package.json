@@ -10,12 +10,12 @@
     "e2e": "ng e2e",
     "home:client": "ng serve home -o --port 4200",
     "home:build": "ng build home --prod",
-    "neo-common:build": "ng build neo-common && npm i dist/neo-common --save-optional",
+    "neo-common:build": "ng build neo-common  && npm i dist/neo-common --save-optional",
     "lib:build": "npm run neo-common:build",
     "build-mylib": "ng build neo-common && npm run build-mylib-styles && npm run cp-mylib-assets ",
     "build-mylib-styles": "cpx \"./projects/neo-common/src/lib/style/**/*\" \"./dist/neo-common/style\" ",
-     "cp-mylib-assets": "cpx \"./projects/neo-common/src/assets/**/*\" \"./dist/neo-common/assets\"",
-     "build:dev":"ng build neo-common --watch"
+    "cp-mylib-assets": "cpx \"./projects/neo-common/src/assets/**/*\" \"./dist/neo-common/assets\"",
+    "build:dev": "ng build neo-common --watch"
   },
   "private": true,
   "dependencies": {

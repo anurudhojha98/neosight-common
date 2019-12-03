@@ -17,8 +17,9 @@
 .example-container > * {
   width: 100%;
 }
+
 p{
-   text-align: center
+  text-align: center
 }
 .green-snackbar{
   background: darkgreen;
@@ -27,15 +28,6 @@ p{
 .red-snackbar{
   background:darkred;
   color: blueviolet
-}
-.remember-text {
-  padding-left: 8px;
-}
-.forget-pwd{
-  margin-left: 50px
-}
-p{
-  text-align: center
 }
 .form{
   margin-bottom: 50px

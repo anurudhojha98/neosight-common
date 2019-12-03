@@ -1,0 +1,86 @@
+<div class="card" id="signupForm">
+    <form #signupForm="ngForm" class="form" (ngSubmit)="onSubmitForm(signupForm)">
+        <div class="example-container">
+            <mat-form-field appearance="outline">
+                <mat-label>Username</mat-label>
+                <input matInput #uname="ngModel" name="uname" placeholder="Username" minlength="4" maxlength="20"
+                    [(ngModel)]="signupObj.uname" required>
+                <mat-error *ngIf="uname.invalid && (uname.dirty || uname.touched) ">
+                    <mat-error *ngIf="uname.errors?.required">
+                        Username is required.
+                    </mat-error>
+                    <mat-error *ngIf="uname.errors?.minlength">
+                        Username should be atleast 4 char.
+                    </mat-error>
+                </mat-error>
+                <mat-error *ngIf="uname.pristine && uname.untouched">
+                    <mat-error *ngIf="!isValid">
+                        Username is required.
+                    </mat-error>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" name="email" #email="ngModel" placeholder="Email" minlength="4"
+                    maxlength="50" pattern="^.+@[^\.].*\.[a-z]{2,}$" [(ngModel)]="signupObj.email" required>
+                <mat-error *ngIf="email.invalid && (email.dirty || email.touched)">
+                    <mat-error *ngIf="email.errors?.required">
+                        Email is required.
+                    </mat-error>
+                    <mat-error *ngIf="email.errors?.pattern">
+                        Invalid email.
+                    </mat-error>
+                </mat-error>
+                <mat-error *ngIf="email.pristine && email.untouched">
+                    <mat-error *ngIf="!isValid">
+                        Email is required.
+                    </mat-error>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input matInput #pwd="ngModel" name="pwd" placeholder="Password" minlength="8" maxlength="16"
+                    [(ngModel)]="signupObj.pwd" [type]="hide ? 'password' : 'text'" required>
+                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                <mat-hint align="end">{{pwd.value?.length || 0}}/16</mat-hint>
+                <mat-error *ngIf="pwd.invalid && (pwd.dirty || pwd.touched)">
+                    <mat-error *ngIf="pwd.errors?.required">
+                        Password is required.
+                    </mat-error>
+                    <mat-error *ngIf="pwd.errors?.minlength">
+                        Password should be atleast 8 char.
+                    </mat-error>
+                </mat-error>
+                <mat-error *ngIf="pwd.pristine && pwd.untouched">
+                    <mat-error *ngIf="!isValid">
+                        Password is required.
+                    </mat-error>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Confirm Password</mat-label>
+                <input matInput type="password" name="cnfrmpwd" #cnfrmpwd="ngModel" placeholder="Confirm Password"
+                    minlength="8" maxlength="16" [type]="isHide ? 'password' : 'text'" [(ngModel)]="signupObj.cnfrmpwd"
+                    required>
+                <mat-icon matSuffix (click)="isHide = !isHide">{{isHide ? 'visibility_off' : 'visibility'}}
+                </mat-icon>
+                <mat-hint align="end">{{cnfrmpwd.value?.length || 0}}/16</mat-hint>
+                <mat-error *ngIf="cnfrmpwd.invalid && (cnfrmpwd.dirty || cnfrmpwd.touched)">
+                    <mat-error *ngIf="cnfrmpwd.errors?.required">
+                        Password is required.
+                    </mat-error>
+                    <mat-error *ngIf="cnfrmpwd.errors?.minlength">
+                        Password should be atleast 8 char.
+                    </mat-error>
+                </mat-error>
+                <mat-error *ngIf="cnfrmpwd.pristine && cnfrmpwd.untouched">
+                    <mat-error *ngIf="!isValid">
+                        Confirm password is required.
+                    </mat-error>
+                </mat-error>
+            </mat-form-field>
+            <button [disabled]="!signupForm.form.valid" mat-raised-button color="accent" (click)="signUp()">Sign
+                Up</button>
+        </div>
+    </form>
+</div>

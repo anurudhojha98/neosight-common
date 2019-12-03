@@ -1,32 +1,26 @@
-import { Component,OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'qs-reset-password',
-    templateUrl: './reset-password.component.html',
-    styleUrls: ['./reset-password.component.scss'],
+  selector: 'neo-common-reset-password',
+  templateUrl: './reset-password.component.html',
+  styleUrls: ['./reset-password.component.scss']
 })
 export class ResetPasswordComponent implements OnInit {
-    passwordResetted: any;
-    showResetForm: any = true;
-    uuid: any;
-    password1: any;
-    password2: any;
-    resetPasswordModel: any = { password1: "", password2: "", encudata: "" };
-    reset: any = "reset password";
-    errorMsg: any = "error"
-    constructor() {
 
-    }
-    goToLogin() {
-    }
-    ngOnInit() {
+  constructor() { }
 
-    }
+  isValid = true;
+  forgotPwd: any = {};
 
-    resetPassword() {
+  ngOnInit() {
+  }
+  onSubmitForm(form) {
+    if (form.pristine || form.untouched || form.invalid) {
+      this.isValid = false;
     }
+  }
+  forgotPassword() {
+    console.log(this.forgotPwd);
+  }
 
-    isValid() {
-}
 }
